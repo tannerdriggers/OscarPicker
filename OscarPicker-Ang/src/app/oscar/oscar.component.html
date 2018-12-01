@@ -1,0 +1,7 @@
+<div *ngIf="auth.canRead(user)">
+  <h1>Oscar Works!</h1>
+
+  <div *ngFor="let oscar of oscarCategory$">
+    {{ oscar.nominees }}
+  </div>
+</div>
