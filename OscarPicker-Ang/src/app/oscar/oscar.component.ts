@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators'
 import { AuthService, User } from '../core/auth.service';
 
 export interface Category {
@@ -15,8 +16,9 @@ export interface Category {
 })
 export class OscarComponent implements OnInit {
 
-  oscarCategoryRef: AngularFirestoreDocument<any>;
+  oscarCategoryRef: AngularFirestoreCollection<any>;
   oscarCategory$: Observable<any>;
+  oscars: any;
 
   user: User;
 
@@ -29,15 +31,16 @@ export class OscarComponent implements OnInit {
     }
   }
 
-  constructor(private afs: AngularFirestore, public auth: AuthService) {
-
-  }
+  constructor(private afs: AngularFirestore, public auth: AuthService) {}
 
   ngOnInit() {
-    this.oscarCategoryRef = this.afs.doc('oscar_categories/actor in a leading role');
-    this.oscarCategory$ = this.oscarCategoryRef.valueChanges();
-
     this.auth.user$.subscribe(user => this.user = user);
+    this.oscarCategoryRef = this.afs.collection('oscar_categories');
+    this.oscarCategory$ = this.oscarCategoryRef.valueChanges();
+    this.oscarCategory$.forEach(next => {
+      this.oscars = next;
+      console.log(next);
+    })
   }
 
 }

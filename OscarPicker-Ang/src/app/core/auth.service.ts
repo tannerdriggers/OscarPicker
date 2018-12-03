@@ -20,6 +20,7 @@ export interface User {
   photoURL?: string;
   displayName?: string;
   roles: Roles;
+  answers?: string[];
 }
 
 
@@ -79,8 +80,22 @@ export class AuthService {
 
   signOut() {
     this.afAuth.auth.signOut().then(() => {
-      this.router.navigate(['/']);
+      this.homeRedirect();
     });
+  }
+
+  //////// Redirections ////////
+
+  homeRedirect() {
+    this.router.navigate(['/']);
+  }
+
+  adminRedirect() {
+    this.router.navigate(['/oscarAdmin']);
+  }
+
+  oscar2018Redirect() {
+    this.router.navigate(['/oscars']);
   }
 
   //////// Abilities and Roles Authorization ////////

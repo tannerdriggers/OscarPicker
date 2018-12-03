@@ -1,7 +1,11 @@
 <div *ngIf="auth.canRead(user)">
-  <h1>Oscar Works!</h1>
+  <h1 style="text-align: center" class="m-4">The 2018 Oscars By Category</h1>
 
-  <div *ngFor="let oscar of oscarCategory$">
-    {{ oscar.nominees }}
+  <div *ngFor="let oscar of oscars" class="mb-4">
+    <h2>{{ oscar.category }}</h2>
+
+    <div *ngFor="let nominee of oscar.nominees">
+      <li>{{ nominee }}</li>
+    </div>
   </div>
 </div>

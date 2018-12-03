@@ -11,18 +11,22 @@ import { AuthGuard } from './core/auth.guard';
 import { OscarAdminComponent } from './oscar-admin/oscar-admin.component';
 import { AdminGuard } from './core/admin.guard';
 import { CanReadGuard } from './core/can-read.guard';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserProfileComponent,
     OscarComponent,
-    OscarAdminComponent
+    OscarAdminComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
+    ReactiveFormsModule,
     CoreModule
   ],
   providers: [
