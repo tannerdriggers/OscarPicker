@@ -9,19 +9,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-        <li *ngIf="!auth.canRead(user)" class="nav-item active">
+        <li *ngIf="!auth.user$ | async" class="nav-item active">
           <a class="nav-link" (click)="auth.homeRedirect(user)">Login</a>
         </li>
-        <li *ngIf="auth.canRead(user)" class="nav-item active">
+        <li *ngIf="auth.user$ | async" class="nav-item active">
           <a class="nav-link" (click)="auth.homeRedirect(user)">Account</a>
         </li>
-        <li *ngIf="auth.canRead(user)" class="nav-item">
+        <li *ngIf="auth.user$ | async" class="nav-item">
           <a class="nav-link" (click)="auth.oscar2018Redirect(user)">Oscar Picker</a>
         </li>
         <li *ngIf="auth.canEdit(user)" class="nav-item">
           <a class="nav-link" (click)="auth.adminRedirect(user)">Admin</a>
         </li>
-        <li *ngIf="auth.canRead(user)">
+        <li *ngIf="auth.user$ | async">
           <a class="nav-link" (click)="auth.signOut()">Logout</a>
         </li>
       </ul>

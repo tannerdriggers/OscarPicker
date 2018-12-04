@@ -43,4 +43,8 @@ export class OscarComponent implements OnInit {
     })
   }
 
+  selectionClick() {
+    
+  }
+
 }

@@ -20,7 +20,6 @@ export interface User {
   photoURL?: string;
   displayName?: string;
   roles: Roles;
-  answers?: string[];
 }
 
 
@@ -49,6 +48,9 @@ export class AuthService {
 
   googleLogin() {
     const provider = new auth.GoogleAuthProvider()
+    provider.setCustomParameters({
+      prompt: 'select_account'
+    });
     return this.oAuthLogin(provider);
   }
 
