@@ -3,11 +3,11 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { AuthService, User } from '../core/auth.service';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 export interface Category {
-  name?: string;
-  nominees?: string[];
+  name: string;
+  choices: string[];
 }
 
 @Component({
@@ -17,15 +17,12 @@ export interface Category {
 })
 export class OscarComponent implements OnInit {
 
-  oscarCategoryRef: AngularFirestoreCollection<any>;
   oscarCategory$: Observable<any>;
-  oscars$: Category;
-  nominees$: string[];
+  oscars$;
 
   user: User;
 
   oscarForm: FormGroup;
-  choices: FormArray;
 
   canRead(user: User): boolean {
     if (this.auth.canRead(user)) {
@@ -40,28 +37,38 @@ export class OscarComponent implements OnInit {
 
   ngOnInit() {
     this.auth.user$.subscribe(user => this.user = user);
-    this.oscarCategoryRef = this.afs.collection('oscar_categories');
-    this.oscarCategory$ = this.oscarCategoryRef.valueChanges();
-    this.oscarCategory$.forEach(next => {
-      this.oscars$ = next;
-      console.log(next);
-    });
-    this.nominees$ = this.oscars$.nominees;
+
+    this.oscarCategory$ = this.afs.collection('oscar_categories').valueChanges();
+    this.oscars$ = this.oscarCategory$.subscribe(oscars => { this.oscars$ = oscars });
 
     this.oscarForm = this.formbuilder.group({
-      choices: this.formbuilder.array([ this.createOscar() ])
-    })
+      choices: this.formbuilder.array([this.initChoice()])
+    });
+
+    this.AddAllChoices();
   }
 
-  createOscar(): FormGroup {
+  save(model: Category) {
+    console.log(model);
+  }
+
+  get choices(): FormArray {
+    return this.oscarForm.get('choices') as FormArray;
+  }
+  
+  initChoice() {
     return this.formbuilder.group({
-      choice: ''
+      nominee: ['']
     })
   }
 
-  addChoice(): void {
-    this.choices = this.oscarForm.get('choices') as FormArray;
-    this.choices.push(this.createOscar());
+  addChoice() {
+    const control = <FormArray>this.oscarForm.controls['choices'];
+    control.push(this.initChoice());
+  }
+
+  AddAllChoices() {
+    
   }
 
   selectionClick() {
