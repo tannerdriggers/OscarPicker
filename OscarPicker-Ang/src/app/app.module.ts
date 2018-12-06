@@ -13,6 +13,7 @@ import { AdminGuard } from './core/admin.guard';
 import { CanReadGuard } from './core/can-read.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { OscarFormComponent } from './oscar-form/oscar-form.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     UserProfileComponent,
     OscarComponent,
     OscarAdminComponent,
-    NavBarComponent
+    NavBarComponent,
+    OscarFormComponent
   ],
   imports: [
     BrowserModule,

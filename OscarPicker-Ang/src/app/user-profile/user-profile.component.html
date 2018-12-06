@@ -5,14 +5,14 @@
 
 <!-- User NOT logged in -->
 <ng-template #guest>
-  <div style="text-align:center">
+  <div class="mb-4 text-center">
     <h1>
       Welcome to {{ title }}!
     </h1>
     
-    <p>Login to get started...</p>
+    <p class="mb-4">Login to get started...</p>
     
-    <button (click)="auth.googleLogin()">
+    <button class="mb-4" (click)="auth.googleLogin()">
       <i class="fa fa-google"></i> Connect Google
     </button>
   </div>

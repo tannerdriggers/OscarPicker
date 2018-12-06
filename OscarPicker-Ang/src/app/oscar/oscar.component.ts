@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { AuthService, User } from '../core/auth.service';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 export interface Category {
-  name: string;
-  choices: string[];
+  Winner: string;
+  category: string;
+  nominees: string[];
+  year: string;
 }
 
 @Component({
@@ -18,7 +20,7 @@ export interface Category {
 export class OscarComponent implements OnInit {
 
   oscarCategory$: Observable<any>;
-  oscars$;
+  oscars$: Subscription;
 
   user: User;
 
@@ -39,10 +41,10 @@ export class OscarComponent implements OnInit {
     this.auth.user$.subscribe(user => this.user = user);
 
     this.oscarCategory$ = this.afs.collection('oscar_categories').valueChanges();
-    this.oscars$ = this.oscarCategory$.subscribe(oscars => { this.oscars$ = oscars });
+    this.oscars$ = this.oscarCategory$.subscribe(oscars => { this.oscars$ = oscars; console.log(oscars) });
 
     this.oscarForm = this.formbuilder.group({
-      choices: this.formbuilder.array([this.initChoice()])
+      choices: this.formbuilder.array([''])
     });
 
     this.AddAllChoices();
