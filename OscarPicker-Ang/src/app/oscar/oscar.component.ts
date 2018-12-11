@@ -22,11 +22,9 @@ export class OscarComponent implements OnInit {
 
   oscarCategory$: Observable<any>;
   oscars$: Category[];
-  oForms: OscarFormComponent[];
+  nestedForm: FormGroup;
 
   user: User;
-
-  oscarForm: FormGroup;
 
   canRead(user: User): boolean {
     if (this.auth.canRead(user)) {
@@ -45,42 +43,19 @@ export class OscarComponent implements OnInit {
     this.oscarCategory$ = this.afs.collection('oscar_categories').valueChanges();
     this.oscarCategory$.subscribe(oscars => { this.oscars$ = oscars; console.log(oscars) });
 
-    this.oscars$.forEach(value => {
-      this.oForms.push();
-    });
-
-    this.oscarForm = this.formbuilder.group({
-      choices: this.formbuilder.array([''])
-    });
-
-    this.AddAllChoices();
+    this.nestedForm = this.formbuilder.group({
+      firstName: []
+    })
   }
 
   save(model: Category) {
     console.log(model);
   }
 
-  get choices(): FormArray {
-    return this.oscarForm.get('choices') as FormArray;
-  }
-  
   initChoice() {
     return this.formbuilder.group({
       nominee: ['']
     })
-  }
-
-  addChoice() {
-    const control = <FormArray>this.oscarForm.controls['choices'];
-    control.push(this.initChoice());
-  }
-
-  AddAllChoices() {
-    
-  }
-
-  selectionClick() {
-    
   }
 
 }

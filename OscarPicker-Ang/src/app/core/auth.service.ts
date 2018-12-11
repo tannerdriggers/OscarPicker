@@ -8,8 +8,6 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import * as auth0 from 'auth0-js';
-
 export interface Roles {
   subscriber?: boolean;
   editor?: boolean;
@@ -24,6 +22,10 @@ export interface User {
   roles: Roles;
 }
 
+export class EmailPasswordCredentials {
+  email: string;
+  password: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -50,11 +52,6 @@ export class AuthService {
 
   googleLogin() {
     const provider = new auth.GoogleAuthProvider();
-    return this.login(provider);
-  }
-
-  facebookLogin() {
-    const provider = new auth.FacebookAuthProvider();
     return this.login(provider);
   }
 
