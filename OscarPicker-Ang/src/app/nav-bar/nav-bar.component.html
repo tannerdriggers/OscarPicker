@@ -1,28 +1,28 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-  <div class="container">
+  <div class="container-fluid">
     <a class="navbar-brand text-light" (click)="auth.homeRedirect(user)">
       Oscar Picker
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
-      aria-expanded="false" aria-label="Toggle navigation">
+      aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
+    <div class="collapse navbar-collapse" id="navbarResponsive" [ngClass]="{ 'show': navbarOpen }">
       <ul class="navbar-nav ml-auto">
-        <li *ngIf="!auth.user$ | async" class="nav-item active">
-          <a class="nav-link" (click)="auth.homeRedirect(user)">Login</a>
-        </li>
-        <li *ngIf="auth.user$ | async" class="nav-item active">
-          <a class="nav-link" (click)="auth.homeRedirect(user)">Account</a>
+        <li *ngIf="!auth.user$ | async" class="nav-item">
+          <a class="nav-link" (click)="auth.homeRedirect(user); toggleNavbar();">Login</a>
         </li>
         <li *ngIf="auth.user$ | async" class="nav-item">
-          <a class="nav-link" (click)="auth.oscar2018Redirect(user)">Oscar Picker</a>
+          <a class="nav-link" (click)="auth.homeRedirect(user); toggleNavbar();">Account</a>
+        </li>
+        <li *ngIf="auth.user$ | async" class="nav-item">
+          <a class="nav-link" (click)="auth.oscar2018Redirect(user); toggleNavbar();">Oscar Picker</a>
         </li>
         <li *ngIf="auth.canEdit(user)" class="nav-item">
-          <a class="nav-link" (click)="auth.adminRedirect(user)">Admin</a>
+          <a class="nav-link" (click)="auth.adminRedirect(user); toggleNavbar();">Admin</a>
         </li>
         <li *ngIf="auth.user$ | async">
-          <a class="nav-link" (click)="auth.signOut()">Logout</a>
+          <a class="nav-link" (click)="auth.signOut(); toggleNavbar();">Logout</a>
         </li>
       </ul>
     </div>

@@ -23,9 +23,9 @@
 <ng-template #authenticated>
   <div *ngIf="auth.user$ | async as user">
     <div class="row">
-      <div class="col"></div>
-      <div class="col">
-        <div class="card mx-auto bg-light">
+      <!-- <div class="col"></div> -->
+      <div class="col pl-5 pr-5">
+        <div class="card mx-auto bg-light ml-4 mr-4">
           <img class="user-img-smaller rounded-circle card-img-top mx-auto mt-4" [src]="user.photoURL" alt="User Image">
           <div class="card-body text-center">
             <h3 class="card-title">{{ user.displayName ? user.displayName : user.email }}</h3>
@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="col"></div>
+      <!-- <div class="col"></div> -->
     </div>
   </div>
 </ng-template>

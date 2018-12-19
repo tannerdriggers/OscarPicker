@@ -1,14 +1,24 @@
 <div *ngIf="auth.canRead(user)">
   <h1 style="text-align: center" class="m-4">The 2018 Oscars By Category</h1>
 
-  <!-- <form [formGroup]="oscarForm"> -->
-    <div *ngIf="oscars$ !== null; else loading">
-      <div *ngFor="let oscar of oscarCategories$ | async" class="mb-4">
-        <app-oscar-form></app-oscar-form>
-      </div>
-    </div>
-    <ng-template #loading>
-      <h3>Loading...</h3>
-    </ng-template>
-  <!-- </form> -->
+  <form action="" fireForm [formGroup]="nestedForm" path="oscar_categories/actor in a leading role">
+    
+
+    <!-- <div formArrayName="favorites"> -->
+      <!-- <div *ngFor="let group of fruitsArray.controls; let i = index;" [formGroupName]="i"> -->
+        <!-- <label for="" class="form-label">Favourite Fruit</label>
+        <div class="form-check form-check-inline row pl-2 m-1" *ngFor="let control of fruitsArray.controls; let j = index;">
+          <input class="form-check-input" type="checkbox"
+          (change)="getSelectedFruitsValue()"
+          [formControl]="control"
+          id="inlineCheckbox{{j}}">
+          <label class="form-check-label" for="inlineCheckbox{{j}}">{{ fruits[j] }}</label>
+        </div>
+        <div>
+          <small id="fnHelp" *ngIf="favFruitsError && checkFruitControlsTouched()" class="form-text custom-invalid-feedback">At least
+            choose one</small>
+        </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
+  </form>
 </div>

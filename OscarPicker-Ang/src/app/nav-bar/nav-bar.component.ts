@@ -11,11 +11,17 @@ export class NavBarComponent implements OnInit {
 
   user: User;
 
+  navbarOpen = false;
+
   constructor(public auth: AuthService) {
     this.auth.user$.subscribe(user => this.user = user);
   }
 
   ngOnInit() {
+  }
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
   }
 
 }

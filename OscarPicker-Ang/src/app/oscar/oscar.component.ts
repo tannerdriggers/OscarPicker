@@ -23,17 +23,13 @@ export class OscarComponent implements OnInit {
   oscarCategory$: Observable<any>;
   oscars$: Category[];
   nestedForm: FormGroup;
+  state: string;
 
   user: User;
 
-  canRead(user: User): boolean {
-    if (this.auth.canRead(user)) {
-      return true;
-    } else {
-      console.log('You are not allowed to read this page.');
-      return false;
-    }
-  }
+  fruits: Array<String> = ['mango', 'Grapes', 'Strawberry', 'Oranges'];
+  selectedFruitValues = [];
+  favFruitsError: boolean = true;
 
   constructor(private afs: AngularFirestore, public auth: AuthService, private formbuilder: FormBuilder) {}
 
@@ -44,18 +40,63 @@ export class OscarComponent implements OnInit {
     this.oscarCategory$.subscribe(oscars => { this.oscars$ = oscars; console.log(oscars) });
 
     this.nestedForm = this.formbuilder.group({
-      firstName: []
-    })
+      favFruits: this.addFruitsControls()
+    });
   }
 
-  save(model: Category) {
-    console.log(model);
-  }
-
-  initChoice() {
+  addFavoritesGroup() {
     return this.formbuilder.group({
-      nominee: ['']
-    })
+      favFruits: this.addFruitsControls()
+    });
+  }
+
+  addFruitsControls() {
+    const arr = this.fruits.map(a => {
+      return this.formbuilder.control(false);
+    });
+
+    return this.formbuilder.array(arr);
+  }
+
+  addFavorites() {
+    this.favoritesArray.push(this.addFavoritesGroup());
+  }
+
+  get favoritesArray() {
+    return <FormArray>this.nestedForm.get('favorites');
+  }
+
+  get fruitsArray() {
+    return <FormArray>this.nestedForm.get('favFruits');
+  }
+
+  checkFruitControlsTouched() {
+    let flg = false;
+    this.fruitsArray.controls.forEach(control => {
+      if (control.touched) {
+        flg = true;
+      }
+    });
+
+    return flg;
+  }
+
+  getSelectedFruitsValue() {
+    this.selectedFruitValues = [];
+    this.fruitsArray.controls.forEach((control, i) => {
+      if (control.value) {
+        this.selectedFruitValues.push(this.fruits[i]);
+      }
+    });
+
+    this.favFruitsError = this.selectedFruitValues.length > 0 ? false : true;
+  }
+
+  submitHandler() {
+    const newItem = this.selectedFruitValues;
+    if (this.nestedForm.valid && this.favFruitsError) {
+      console.log({ ...this.nestedForm.value, newItem });
+    }
   }
 
 }

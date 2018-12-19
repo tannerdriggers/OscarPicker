@@ -14,6 +14,7 @@ import { CanReadGuard } from './core/can-read.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { OscarFormComponent } from './oscar-form/oscar-form.component';
+import { FireFormDirective } from './fire-form.directive';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { OscarFormComponent } from './oscar-form/oscar-form.component';
     OscarComponent,
     OscarAdminComponent,
     NavBarComponent,
-    OscarFormComponent
+    OscarFormComponent,
+    FireFormDirective
   ],
   imports: [
     BrowserModule,
