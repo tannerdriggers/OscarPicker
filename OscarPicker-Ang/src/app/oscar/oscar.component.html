@@ -1,24 +1,32 @@
 <div *ngIf="auth.canRead(user)">
-  <h1 style="text-align: center" class="m-4">The 2018 Oscars By Category</h1>
+  <h1 class="m-4 text-center">The 
+    <div class="dropdown" appDropdown>
+    <button class="btn btn-dark dropdown-toggle" type="button" id="yearDropdownMenuButton" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      {{year}}
+    </button>
+    <div class="dropdown-menu dropdown-menu-center" aria-labelledby="yearDropdownMenuButton">
+      <a class="dropdown-item" *ngFor="let y of years$ | async" (click)="YearChosen(y.year)">{{ y.year }}</a>
+    </div>
+  </div> Oscars By Category</h1>
 
-  <form action="" fireForm [formGroup]="nestedForm" path="oscar_categories/actor in a leading role">
-    
-
-    <!-- <div formArrayName="favorites"> -->
-      <!-- <div *ngFor="let group of fruitsArray.controls; let i = index;" [formGroupName]="i"> -->
-        <!-- <label for="" class="form-label">Favourite Fruit</label>
-        <div class="form-check form-check-inline row pl-2 m-1" *ngFor="let control of fruitsArray.controls; let j = index;">
-          <input class="form-check-input" type="checkbox"
-          (change)="getSelectedFruitsValue()"
-          [formControl]="control"
-          id="inlineCheckbox{{j}}">
-          <label class="form-check-label" for="inlineCheckbox{{j}}">{{ fruits[j] }}</label>
+  <form action="">
+    <div *ngFor="let category of oscarCategory$ | async" class="card mx-auto bg-light m-3">
+      <div class="card-body">
+        <h3 class="card-title">{{ category.category }}</h3>
+        <div *ngIf="category.winner != null">
+          <h4>
+            <strong>
+              *Winner: 
+            </strong>
+            {{ category.winner }}
+          </h4>
         </div>
-        <div>
-          <small id="fnHelp" *ngIf="favFruitsError && checkFruitControlsTouched()" class="form-text custom-invalid-feedback">At least
-            choose one</small>
-        </div> -->
-      <!-- </div> -->
-    <!-- </div> -->
+        <div *ngFor="let nominee of category.nominees">
+          <input type="radio" name="{{ category.category }}" value="{{ nominee }}" [disabled]="category.winner != null" required> {{ nominee }}
+        </div>
+      </div>
+    </div>
+    <input type="submit" value="Submit Selections" class="mb-3" (click)="SubmitForm()">
   </form>
 </div>

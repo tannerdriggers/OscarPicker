@@ -11,10 +11,11 @@ import { AuthGuard } from './core/auth.guard';
 import { OscarAdminComponent } from './oscar-admin/oscar-admin.component';
 import { AdminGuard } from './core/admin.guard';
 import { CanReadGuard } from './core/can-read.guard';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { OscarFormComponent } from './oscar-form/oscar-form.component';
 import { FireFormDirective } from './fire-form.directive';
+import { DropdownDirective } from './dropdown-directive.directive';
 
 @NgModule({
   declarations: [
@@ -24,14 +25,16 @@ import { FireFormDirective } from './fire-form.directive';
     OscarAdminComponent,
     NavBarComponent,
     OscarFormComponent,
-    FireFormDirective
+    FireFormDirective,
+    DropdownDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     ReactiveFormsModule,
-    CoreModule
+    CoreModule,
+    FormsModule
   ],
   providers: [
     AuthGuard,
