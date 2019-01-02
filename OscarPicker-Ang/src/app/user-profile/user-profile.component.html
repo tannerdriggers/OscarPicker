@@ -5,15 +5,15 @@
 
 <!-- User NOT logged in -->
 <ng-template #guest>
-  <div class="mb-4 text-center">
+  <div class="card mx-auto ml-4 mr-4 border-gold text-center p-5">
     <h1 class="text-gold">
       Welcome to {{ title }}!
     </h1>
     
-    <p class="mb-4 text-gold">Login to get started...</p>
+    <h5 class="mb-5 mt-4 text-gold">Login to get started...</h5>
     
-    <button class="btn btn-gold m-4" (click)="auth.googleLogin()">
-      <i class="fa fa-google"></i> Connect Google
+    <button class="btn btn-gold" (click)="auth.googleLogin()">
+      Connect Google
     </button>
   </div>
 </ng-template>
@@ -23,18 +23,19 @@
 <ng-template #authenticated>
   <div *ngIf="auth.user$ | async as user">
     <div class="row">
-      <!-- <div class="col"></div> -->
       <div class="col pl-5 pr-5">
         <div class="card mx-auto ml-4 mr-4 border-gold">
           <img class="user-img-smaller rounded-circle card-img-top mx-auto mt-4" [src]="user.photoURL" alt="User Image">
           <div class="card-body text-center">
             <h3 class="card-title">{{ user.displayName ? user.displayName : user.email }}</h3>
-            <p>UID: {{ user.uid }}</p>
-            <button (click)="auth.signOut()">Logout</button>
+            <div class="justify-content mt-4">
+              <button class="btn btn-gold m-1" (click)="auth.oscarRedirect()">Oscar Picker</button>
+              <button class="btn btn-gold m-1" (click)="auth.oscarStatsRedirect()">Oscar Stats</button>
+              <button class="btn btn-gold m-1" (click)="auth.signOut()">Logout</button>
+            </div>
           </div>
         </div>
       </div>
-      <!-- <div class="col"></div> -->
     </div>
   </div>
 </ng-template>
