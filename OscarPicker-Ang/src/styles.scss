@@ -8,3 +8,39 @@
 a:hover {
     cursor: pointer;
 }
+
+body {
+    min-height: 75rem;
+    padding-top: 4rem;
+    background-color: #f9f9f9;
+}
+
+.text-gold {
+    color: #bba064 !important;
+}
+
+.header-divider {
+    width: 90%;
+    background: transparent url(//ddoie2e1uy9qo.cloudfront.net/images/Divider-Tablet.png) no-repeat 50%;
+    height: 2px;
+}
+
+.header-text {
+    font-weight: 300;
+    font-size: 40px;
+    color: #bba064;
+}
+
+.btn-gold {
+    color: #fff;
+    background-color: #bba064;
+    border-color: #bba064;
+}
+
+.border-gold {
+    border: 1px solid #bba064;
+}
+
+.border-bottom-gold {
+    border-bottom: 1px solid #bba064;
+}

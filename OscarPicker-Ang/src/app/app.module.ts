@@ -16,6 +16,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { OscarFormComponent } from './oscar-form/oscar-form.component';
 import { FireFormDirective } from './fire-form.directive';
 import { DropdownDirective } from './dropdown-directive.directive';
+import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { DropdownDirective } from './dropdown-directive.directive';
     AngularFireModule.initializeApp(environment.firebase),
     ReactiveFormsModule,
     CoreModule,
-    FormsModule
+    FormsModule,
+    OrderModule
   ],
   providers: [
     AuthGuard,

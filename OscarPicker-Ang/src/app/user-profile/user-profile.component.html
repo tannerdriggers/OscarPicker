@@ -6,13 +6,13 @@
 <!-- User NOT logged in -->
 <ng-template #guest>
   <div class="mb-4 text-center">
-    <h1>
+    <h1 class="text-gold">
       Welcome to {{ title }}!
     </h1>
     
-    <p class="mb-4">Login to get started...</p>
+    <p class="mb-4 text-gold">Login to get started...</p>
     
-    <button class="m-4" (click)="auth.googleLogin()">
+    <button class="btn btn-gold m-4" (click)="auth.googleLogin()">
       <i class="fa fa-google"></i> Connect Google
     </button>
   </div>
@@ -25,7 +25,7 @@
     <div class="row">
       <!-- <div class="col"></div> -->
       <div class="col pl-5 pr-5">
-        <div class="card mx-auto bg-light ml-4 mr-4">
+        <div class="card mx-auto ml-4 mr-4 border-gold">
           <img class="user-img-smaller rounded-circle card-img-top mx-auto mt-4" [src]="user.photoURL" alt="User Image">
           <div class="card-body text-center">
             <h3 class="card-title">{{ user.displayName ? user.displayName : user.email }}</h3>

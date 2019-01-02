@@ -1,22 +1,22 @@
 <div *ngIf="auth.canRead(user)">
-  <h1 class="m-4 text-center">The 
+  <h1 class="m-4 text-center header-text">The 
     <div class="dropdown" appDropdown>
-    <button class="btn btn-dark dropdown-toggle" type="button" id="yearDropdownMenuButton" data-toggle="dropdown"
+    <button class="btn btn-gold dropdown-toggle" type="button" id="yearDropdownMenuButton" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false">
       {{year}}
     </button>
     <div class="dropdown-menu dropdown-menu-center" aria-labelledby="yearDropdownMenuButton">
-      <a class="dropdown-item" *ngFor="let y of years$ | async" (click)="YearChosen(y.year)">{{ y.year }}</a>
+      <a class="dropdown-item" *ngFor="let y of years$ | async | orderBy: 'y':false:true" (click)="YearChosen(y.year)">{{ y.year }}</a>
     </div>
   </div> Oscars By Category</h1>
-
+  <div class="header-divider mx-auto"></div> 
   <form action="">
-    <div *ngFor="let category of oscarCategory$ | async" class="card mx-auto bg-light m-3">
+    <div *ngFor="let category of oscarCategory$ | async | orderBy: 'category':false:true" class="card mx-auto mt-3 border-gold">
       <div class="card-body">
-        <h3 class="card-title">{{ category.category }}</h3>
+        <h3 class="card-title text-gold">{{ category.category }}</h3>
         <div *ngIf="category.winner != null">
           <h4>
-            <strong>
+            <strong class="text-gold">
               *Winner: 
             </strong>
             {{ category.winner }}
@@ -27,6 +27,6 @@
         </div>
       </div>
     </div>
-    <input type="submit" value="Submit Selections" class="mb-3" (click)="SubmitForm()">
+    <button class="btn btn-gold mb-3 mt-3" (click)="SubmitForm()">Submit Selections</button>
   </form>
 </div>
