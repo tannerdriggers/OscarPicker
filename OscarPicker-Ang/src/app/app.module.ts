@@ -18,6 +18,7 @@ import { FireFormDirective } from './fire-form.directive';
 import { DropdownDirective } from './dropdown-directive.directive';
 import { OrderModule } from 'ngx-order-pipe';
 import { OscarStatsComponent } from './oscar-stats/oscar-stats.component';
+import { OnCreateDirective } from './on-create.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { OscarStatsComponent } from './oscar-stats/oscar-stats.component';
     OscarFormComponent,
     FireFormDirective,
     DropdownDirective,
-    OscarStatsComponent
+    OscarStatsComponent,
+    OnCreateDirective
   ],
   imports: [
     BrowserModule,

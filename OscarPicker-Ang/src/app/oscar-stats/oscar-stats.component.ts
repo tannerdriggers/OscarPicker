@@ -19,8 +19,8 @@ export class OscarStatsComponent implements OnInit {
 
   ngOnInit() {
     this.auth.user$.subscribe(user => this.user = user);
-    this.userAnswers$ = this.afs.collection('user-picks/${this.year}/Oscar/B62XPHMbvfeZCGQn5F5uRwMFptu2/categories').valueChanges();
-    this.oscarCategory$ = this.afs.collection('oscar_categories/${this.year}/categories').valueChanges();
+    this.userAnswers$ = this.afs.collection(`user-picks/${this.year}/Oscar/B62XPHMbvfeZCGQn5F5uRwMFptu2/categories`).valueChanges();
+    this.oscarCategory$ = this.afs.collection(`oscar_categories/${this.year}/categories`).valueChanges();
   }
 
 }
