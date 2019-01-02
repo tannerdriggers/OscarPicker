@@ -10,16 +10,19 @@
     <div class="collapse navbar-collapse" id="navbarResponsive" [ngClass]="{ 'show': navbarOpen }">
       <ul class="navbar-nav ml-auto">
         <li *ngIf="!auth.user$ | async" class="nav-item">
-          <a class="nav-link text-gold text-right" (click)="auth.homeRedirect(user); toggleNavbar();">Login</a>
+          <a class="nav-link text-gold text-right" (click)="auth.homeRedirect(); toggleNavbar();">Login</a>
         </li>
         <li *ngIf="auth.user$ | async" class="nav-item">
-          <a class="nav-link text-gold text-right" (click)="auth.homeRedirect(user); toggleNavbar();">Account</a>
+          <a class="nav-link text-gold text-right" (click)="auth.homeRedirect(); toggleNavbar();">Account</a>
         </li>
         <li *ngIf="auth.user$ | async" class="nav-item">
-          <a class="nav-link text-gold text-right" (click)="auth.oscar2018Redirect(user); toggleNavbar();">Oscar Picker</a>
+          <a class="nav-link text-gold text-right" (click)="auth.oscarRedirect(); toggleNavbar();">Oscar Picker</a>
+        </li>
+        <li *ngIf="auth.user$ | async" class="nav-item">
+          <a class="nav-link text-gold text-right" (click)="auth.oscarStatsRedirect(); toggleNavbar();">Oscar Stats</a>
         </li>
         <li *ngIf="auth.canEdit(user)" class="nav-item">
-          <a class="nav-link text-gold text-right" (click)="auth.adminRedirect(user); toggleNavbar();">Admin</a>
+          <a class="nav-link text-gold text-right" (click)="auth.adminRedirect(); toggleNavbar();">Admin</a>
         </li>
         <li *ngIf="auth.user$ | async">
           <a class="nav-link text-gold text-right" (click)="auth.signOut(); toggleNavbar();">Logout</a>

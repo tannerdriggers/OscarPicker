@@ -38,7 +38,6 @@ export class OscarComponent implements OnInit {
 
   SubmitForm(): void {
     if (this.VerifyForm()) {
-
     }
   }
 
