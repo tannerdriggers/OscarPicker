@@ -104,8 +104,12 @@ export class AuthService {
     this.router.navigate(['/oscarAdmin']);
   }
 
-  oscar2018Redirect() {
-    this.router.navigate(['/oscars']);
+  oscarRedirect() {
+    this.router.navigate(['/oscar']);
+  }
+
+  oscarStatsRedirect() {
+    this.router.navigate(['/oscarStats']);
   }
 
   //////// Abilities and Roles Authorization ////////

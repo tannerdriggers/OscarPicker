@@ -6,12 +6,14 @@ import { AuthGuard } from './core/auth.guard';
 import { AdminGuard } from './core/admin.guard';
 import { CanReadGuard } from './core/can-read.guard';
 import { OscarAdminComponent } from './oscar-admin/oscar-admin.component';
+import { OscarStatsComponent } from './oscar-stats/oscar-stats.component';
 
 const routes: Routes = [
   { path: '', component: UserProfileComponent },
   { path: 'login', redirectTo: '', pathMatch: 'full' },
-  { path: 'oscars', component: OscarComponent, canActivate: [CanReadGuard] },
-  { path: 'oscarAdmin', component: OscarAdminComponent, canActivate: [AdminGuard] }
+  { path: 'oscar', component: OscarComponent, canActivate: [CanReadGuard] },
+  { path: 'oscarAdmin', component: OscarAdminComponent, canActivate: [AdminGuard] },
+  { path: 'oscarStats', component: OscarStatsComponent, canActivate: [AdminGuard] },
 ];
 
 @NgModule({
