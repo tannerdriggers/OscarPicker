@@ -12,8 +12,8 @@ const routes: Routes = [
   { path: '', component: UserProfileComponent },
   { path: 'login', redirectTo: '', pathMatch: 'full' },
   { path: 'oscar', component: OscarComponent, canActivate: [CanReadGuard] },
+  { path: 'oscarStats', component: OscarStatsComponent, canActivate: [CanReadGuard] },
   { path: 'oscarAdmin', component: OscarAdminComponent, canActivate: [AdminGuard] },
-  { path: 'oscarStats', component: OscarStatsComponent, canActivate: [AdminGuard] },
 ];
 
 @NgModule({
