@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { AuthService, User } from '../core/auth.service';
 import { OrderPipe } from 'ngx-order-pipe';
@@ -9,7 +9,7 @@ class Choice {
   choice?: string;
 }
 
-export interface OscarCategory {
+interface OscarCategory {
   category: string;
   nominees: string[];
   winner?: string;
@@ -31,7 +31,6 @@ export class OscarComponent implements OnInit {
 
   choices: Choice[];
   userChoices$: Observable<Choice[]>;
-  userChoices: Choice[];
 
   constructor(private afs: AngularFirestore, public auth: AuthService) {}
 
@@ -39,22 +38,19 @@ export class OscarComponent implements OnInit {
     this.auth.user$.subscribe(user => this.user = user);
 
     this.choices = new Array<Choice>();
-    this.userChoices = new Array<Choice>();
 
     this.years$ = this.afs.collection('oscar_categories').valueChanges();
     this.getYear().then(a => {
       this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-      this.oscarCategory$.subscribe(cat => { console.log(cat) });
+      // this.oscarCategory$.subscribe(cat => { console.log(cat) });
 
-      console.log(this.user.uid);
+      // console.log(this.user.uid);
 
       this.getUserChoice().then(b => {
         // console.log(this.userChoices$);
+
         this.userChoices$.subscribe(choices => {
-          console.log(choices);
-          choices.forEach(choice => {
-            this.userChoices.push(choice);
-          });
+          this.choices = choices;
         });
       });
     });
@@ -62,7 +58,6 @@ export class OscarComponent implements OnInit {
 
   async getUserChoice(): Promise<any> {
     return new Promise((resolve, reject) => {
-      console.log(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`);
       this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
       resolve();
     })
@@ -86,7 +81,16 @@ export class OscarComponent implements OnInit {
   SubmitSingleForm(category: string): void {
     for (let choice of this.choices) {
       if (choice.category === category) {
-        console.log(`'${category}' Form Submited`)
+        const userAns: AngularFirestoreDocument<Choice> = this.afs.doc(`user_picks/${this.year}/Oscar/${this.user.uid}/categories/${category}`);
+
+        const data: Choice = {
+          category: category,
+          choice: choice.choice
+        }
+
+        userAns.set(data, { merge: true });
+
+        console.log(`'${category}' form submitted`)
       }
     }
   }
@@ -114,15 +118,15 @@ export class OscarComponent implements OnInit {
   YearChosen(year: string): void {
     this.year = year;
     this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-    this.oscarCategory$.subscribe(cat => { console.log(cat) });
+    // this.oscarCategory$.subscribe(cat => { console.log(cat) });
 
     this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
-    this.userChoices$.subscribe(choices => {
-      console.log(choices);
-      choices.forEach(choice => {
-        this.userChoices.push(choice);
-      });
-    });
+    // this.userChoices$.subscribe(choices => {
+    //   console.log(choices);
+    //   choices.forEach(choice => {
+    //     this.userChoices.push(choice);
+    //   });
+    // });
   }
 
   newCategory(category: string): void {
@@ -150,7 +154,7 @@ export class OscarComponent implements OnInit {
   }
 
   alreadyChosenByUser(category: string, nominee: string): boolean {
-    for (let choice of this.userChoices) {
+    for (let choice of this.choices) {
       if (choice.category === category) {
         return choice.choice === nominee;
       }
