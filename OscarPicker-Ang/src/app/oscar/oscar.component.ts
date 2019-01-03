@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import { AuthService, User } from '../core/auth.service';
-import { OrderPipe } from 'ngx-order-pipe';
 
 class Choice {
   category: string;
@@ -20,7 +19,7 @@ interface OscarCategory {
   templateUrl: './oscar.component.html',
   styleUrls: ['./oscar.component.scss']
 })
-export class OscarComponent implements OnInit, OnDestroy {
+export class OscarComponent implements OnInit {
 
   oscarCategory$: Observable<OscarCategory[]>;
 
@@ -54,13 +53,8 @@ export class OscarComponent implements OnInit, OnDestroy {
         this.choiceSubscription = this.userChoices$.subscribe(choices => {
           this.choices = choices;
         });
-        this.choiceSubscription.unsubscribe();
       });
     });
-  }
-
-  ngOnDestroy() {
-    this.choiceSubscription.unsubscribe();
   }
 
   async getUserChoice(): Promise<any> {
@@ -125,15 +119,8 @@ export class OscarComponent implements OnInit, OnDestroy {
   YearChosen(year: string): void {
     this.year = year;
     this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-    // this.oscarCategory$.subscribe(cat => { console.log(cat) });
 
     this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
-    // this.userChoices$.subscribe(choices => {
-    //   console.log(choices);
-    //   choices.forEach(choice => {
-    //     this.userChoices.push(choice);
-    //   });
-    // });
   }
 
   newCategory(category: string): void {

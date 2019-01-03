@@ -1,7 +1,30 @@
 <div *ngIf="auth.canRead(user)">
-  <div *ngFor="let category of oscarCategory$ | async">
-    <div *ngFor="let answer of userAnswers$ | async">
-
+  <h1 class="m-4 text-center header-text">Oscar Statistics
+    <div class="dropdown" appDropdown>
+      <button class="btn btn-gold dropdown-toggle" type="button" id="yearDropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        {{ year }}
+      </button>
+      <div class="dropdown-menu dropdown-menu-center" aria-labelledby="yearDropdownMenuButton">
+        <a class="dropdown-item text-center" (click)="YearChosen(2018)">2018</a>
+        <a class="dropdown-item text-center" (click)="YearChosen(2019)">2019</a>
+        <!-- <a class="dropdown-item text-center" *ngFor="let y of years$ | async | orderBy: 'y':false:true" (click)="YearChosen(y.year)">
+          {{ y.year }}
+        </a> -->
+      </div>
+    </div>
+  </h1>
+  <div class="header-divider mx-auto"></div>
+  <div class="card mx-auto m-3 border-gold">
+    <div class="card-body">
+      <h3 class="card-title text-center text-gold">Personal Stats</h3>
+      <!-- <div *ngIf="userAnswer$ | async"> -->
+        <div *ngFor="let category of oscarCategory$ | async | orderBy: 'category':false:true">
+          <h5 [ngClass]="{'text-success': rightAnswer(category), 'text-danger': !rightAnswer(category), 'text-gold': rightAnswer(category) === null}">
+            {{category.category}}
+          </h5>
+        </div>
+      <!-- </div> -->
     </div>
   </div>
 </div>

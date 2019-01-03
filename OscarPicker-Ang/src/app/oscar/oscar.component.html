@@ -1,14 +1,15 @@
 <div *ngIf="auth.canRead(user)">
   <h1 class="m-4 text-center header-text">The 
     <div class="dropdown" appDropdown>
-    <button class="btn btn-gold dropdown-toggle" type="button" id="yearDropdownMenuButton" data-toggle="dropdown"
-      aria-haspopup="true" aria-expanded="false">
-      {{year}}
-    </button>
-    <div class="dropdown-menu dropdown-menu-center" aria-labelledby="yearDropdownMenuButton">
-      <a class="dropdown-item" *ngFor="let y of years$ | async | orderBy: 'y':false:true" (click)="YearChosen(y.year)">{{ y.year }}</a>
-    </div>
-  </div> Oscars By Category</h1>
+      <button class="btn btn-gold dropdown-toggle" type="button" id="yearDropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        {{year}}
+      </button>
+      <div class="dropdown-menu dropdown-menu-center" aria-labelledby="yearDropdownMenuButton">
+        <a class="dropdown-item text-center" *ngFor="let y of years$ | async | orderBy: 'y':false:true" (click)="YearChosen(y.year)">{{ y.year }}</a>
+      </div>
+    </div> Oscars By Category
+  </h1>
   <div class="header-divider mx-auto"></div> 
   <form action="">
     <div *ngFor="let category of oscarCategory$ | async | orderBy: 'category':false:true" class="card mx-auto m-3 border-gold">

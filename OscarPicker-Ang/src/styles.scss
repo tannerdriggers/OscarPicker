@@ -48,3 +48,15 @@ body {
 .border-bottom-gold {
     border-bottom: 1px solid #bba064;
 }
+
+.dropdown-menu {
+    min-width: 5rem;
+}
+
+.dropdown-menu-center {
+    right: auto;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
