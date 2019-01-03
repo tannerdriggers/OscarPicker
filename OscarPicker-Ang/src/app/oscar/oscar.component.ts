@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { AuthService, User } from '../core/auth.service';
 import { OrderPipe } from 'ngx-order-pipe';
 
@@ -20,7 +20,7 @@ interface OscarCategory {
   templateUrl: './oscar.component.html',
   styleUrls: ['./oscar.component.scss']
 })
-export class OscarComponent implements OnInit {
+export class OscarComponent implements OnInit, OnDestroy {
 
   oscarCategory$: Observable<OscarCategory[]>;
 
@@ -31,6 +31,8 @@ export class OscarComponent implements OnInit {
 
   choices: Choice[];
   userChoices$: Observable<Choice[]>;
+
+  choiceSubscription: Subscription;
 
   constructor(private afs: AngularFirestore, public auth: AuthService) {}
 
@@ -49,11 +51,16 @@ export class OscarComponent implements OnInit {
       this.getUserChoice().then(b => {
         // console.log(this.userChoices$);
 
-        this.userChoices$.subscribe(choices => {
+        this.choiceSubscription = this.userChoices$.subscribe(choices => {
           this.choices = choices;
         });
+        this.choiceSubscription.unsubscribe();
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.choiceSubscription.unsubscribe();
   }
 
   async getUserChoice(): Promise<any> {
