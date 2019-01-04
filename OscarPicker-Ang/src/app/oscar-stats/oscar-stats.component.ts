@@ -43,21 +43,21 @@ export class OscarStatsComponent implements OnInit {
 
   ngOnInit() {
     this.years$ = this.afs.collection<Year>('user_picks').valueChanges();
-    this.getYear().then(a => {
-      this.getUser().then(b => {
-        console.log('userId: ' + this.user.uid);
-        this.userAnswers$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
-        this.userAnswersSubscription = this.userAnswers$.subscribe(answers => {
-          this.userAns = answers;
-          console.log(this.userAns);
-        });
-      });
-      this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-      this.oscarCategorySubscription = this.oscarCategory$.subscribe(categories => {
-        this.oscarCategories = categories;
-        console.log(this.oscarCategories);
-      })
+    this.years$.subscribe(details => {
+      this.year = details[details.length - 1].year;
     });
+    this.auth.user$.subscribe(user => this.user = user);
+    console.log('userId: ' + this.user.uid);
+    this.userAnswers$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
+    this.userAnswersSubscription = this.userAnswers$.subscribe(answers => {
+      this.userAns = answers;
+      console.log(this.userAns);
+    });
+    this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
+    this.oscarCategorySubscription = this.oscarCategory$.subscribe(categories => {
+      this.oscarCategories = categories;
+      console.log(this.oscarCategories);
+    })
   }
 
   rightAnswer(category: string): boolean {
