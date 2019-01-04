@@ -38,24 +38,46 @@ export class OscarStatsComponent implements OnInit {
   oscarCategories: OscarCategory[];
   
   year: string = '2018';
+  amountCorrect: number = 0;
 
   constructor(private afs: AngularFirestore, public auth: AuthService) { }
 
   ngOnInit() {
     this.years$ = this.afs.collection<Year>('user_picks').valueChanges();
     this.years$.subscribe(details => {
-      this.year = details[details.length - 1].year;
-      this.auth.user$.subscribe(user => {
-        this.user = user;
-        this.userAnswers$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
-      });
-      this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-      this.oscarCategorySubscription = this.oscarCategory$.subscribe(categories => {
-        this.oscarCategories = categories;
-        console.log('Oscar Categories: ')
-        console.log(this.oscarCategories);
+      this.year = details[details.length - 2].year;
+      this.CorrectAnswers();
+    });
+  }
+
+  CorrectAnswers(): void {
+    this.auth.user$.subscribe(user => {
+      this.user = user;
+      this.userAnswers$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
+      this.userAnswersSubscription = this.userAnswers$.subscribe(answers => {
+        this.userAns = answers;
+        this.numberOfCorrectAnswers();
       });
     });
+    this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
+    this.oscarCategorySubscription = this.oscarCategory$.subscribe(categories => {
+      this.oscarCategories = categories;
+      console.log('Oscar Categories: ')
+      console.log(this.oscarCategories);
+    });
+  }
+
+  numberOfCorrectAnswers(): void {
+    for (let category of this.oscarCategories) {
+      for (let userAnswer of this.userAns) {
+        if (category.category === userAnswer.category) {
+          console.log(category.category + ' :: ' + category.winner + ' : ' + userAnswer.choice);
+          if (category.winner === userAnswer.choice) {
+            this.amountCorrect++;
+          }
+        }
+      }
+    }
   }
 
   async rightAnswer(category: string) {
@@ -101,14 +123,9 @@ export class OscarStatsComponent implements OnInit {
   }
 
   YearChosen(year: string): void {
+    this.amountCorrect = 0;
     this.year = year;
-    this.userAnswers$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
-    this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-    this.oscarCategorySubscription = this.oscarCategory$.subscribe(categories => {
-      this.oscarCategories = categories;
-      console.log('Oscar Categories: ');
-      console.log(this.oscarCategories);
-    })
+    this.CorrectAnswers();
   }
 
 }

@@ -3,6 +3,10 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import { AuthService, User } from '../core/auth.service';
 
+interface Year {
+  year: string
+}
+
 class Choice {
   category: string;
   choice?: string;
@@ -23,7 +27,7 @@ export class OscarComponent implements OnInit {
 
   oscarCategory$: Observable<OscarCategory[]>;
 
-  years$: Observable<any>;
+  years$: Observable<Year[]>;
   year: string;
 
   user: User;
@@ -40,19 +44,13 @@ export class OscarComponent implements OnInit {
 
     this.choices = new Array<Choice>();
 
-    this.years$ = this.afs.collection('oscar_categories').valueChanges();
-    this.getYear().then(a => {
+    this.years$ = this.afs.collection<Year>('oscar_categories').valueChanges();
+    this.years$.subscribe(details => {
+      this.year = details[details.length - 1].year;
       this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-      // this.oscarCategory$.subscribe(cat => { console.log(cat) });
-
-      // console.log(this.user.uid);
-
-      this.getUserChoice().then(b => {
-        // console.log(this.userChoices$);
-
-        this.choiceSubscription = this.userChoices$.subscribe(choices => {
-          this.choices = choices;
-        });
+      this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
+      this.choiceSubscription = this.userChoices$.subscribe(choices => {
+        this.choices = choices;
       });
     });
   }
