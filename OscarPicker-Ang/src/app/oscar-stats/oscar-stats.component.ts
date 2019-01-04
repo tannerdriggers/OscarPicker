@@ -62,8 +62,6 @@ export class OscarStatsComponent implements OnInit {
     this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
     this.oscarCategorySubscription = this.oscarCategory$.subscribe(categories => {
       this.oscarCategories = categories;
-      console.log('Oscar Categories: ')
-      console.log(this.oscarCategories);
     });
   }
 
@@ -71,7 +69,7 @@ export class OscarStatsComponent implements OnInit {
     for (let category of this.oscarCategories) {
       for (let userAnswer of this.userAns) {
         if (category.category === userAnswer.category) {
-          console.log(category.category + ' :: ' + category.winner + ' : ' + userAnswer.choice);
+          // console.log(category.category + ' :: ' + category.winner + ' : ' + userAnswer.choice);
           if (category.winner === userAnswer.choice) {
             this.amountCorrect++;
           }
@@ -84,7 +82,7 @@ export class OscarStatsComponent implements OnInit {
     let r;
     // console.log(category);
     await this.rightAnswerPromise(category).then(result => r = result);
-    console.log(category + ':' + r);
+    // console.log(category + ':' + r);
     return r;
   }
 
@@ -104,7 +102,7 @@ export class OscarStatsComponent implements OnInit {
             break;
           }
         }
-        console.log(this.oscarCategories);
+        // console.log(this.oscarCategories);
         for (let ans of this.oscarCategories) {
           console.log('Answer Categories= ' + ans.category + ':' + category);
           if (ans.category === category) {
@@ -116,7 +114,7 @@ export class OscarStatsComponent implements OnInit {
         if (userAns != null) {
           r = userAns === correctAns;
         }
-        console.log('Answers= ' + userAns + ':' + correctAns);
+        // console.log('Answers= ' + userAns + ':' + correctAns);
         resolve(r);
       });
     });

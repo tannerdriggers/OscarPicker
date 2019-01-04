@@ -24,8 +24,8 @@
           </h4>
         </div>
         <div *ngFor="let nominee of category.nominees">
-          <input type="radio" name="{{ category.category }}" value="{{ nominee }}" [disabled]="category.winner != null"
-            (click)="userChoice(category.category, nominee)" [checked]="alreadyChosenByUser(category.category, nominee)" required> {{ nominee }}
+          <input type="radio" class="mr-1" name="{{ category.category }}" value="{{ nominee }}" [disabled]="category.winner != null"
+            (click)="userChoice(category.category, nominee)" [checked]="alreadyChosenByUser(category.category, nominee)" required>{{ nominee }}
         </div>
         <div *ngIf="!VerifySingleForm(category.category) && category.winner == null"><p class="mb-1 mt-2 text-danger">*Must Choose an Answer</p></div>
       </div>

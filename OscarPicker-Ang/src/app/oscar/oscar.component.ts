@@ -126,6 +126,7 @@ export class OscarComponent implements OnInit {
     for (let choice of this.choices) {
       if (choice.category === category) {
         flag = true;
+        break;
       }
     }
     if (!flag) {
@@ -141,6 +142,7 @@ export class OscarComponent implements OnInit {
         ch.choice = choice;
         console.log(ch);
         this.SubmitSingleForm(category);
+        break;
       }
     }
   }
