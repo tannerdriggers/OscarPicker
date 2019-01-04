@@ -18,11 +18,12 @@
   <div class="card mx-auto m-3 border-gold">
     <div class="card-body">
       <h3 class="card-title text-center text-gold">Personal Stats</h3>
-      <!-- <div *ngIf="userAnswer$ | async"> -->
+      <!-- <div *ngIf="userAns != null"> -->
         <div *ngFor="let category of oscarCategory$ | async | orderBy: 'category':false:true">
-          <h5 [ngClass]="{'text-success': rightAnswer(category), 'text-danger': !rightAnswer(category), 'text-gold': rightAnswer(category) === null}">
+          <!-- <h5 [ngClass]="{'text-gold': rightAnswer(category.category) === null, 'text-success': rightAnswer(category.category) === true, 'text-danger': rightAnswer(category.category) === false}"> -->
+          <h5 *ngIf="rightAnswer(category.category)">**</h5>
             {{category.category}}
-          </h5>
+          <!-- </h5> -->
         </div>
       <!-- </div> -->
     </div>
