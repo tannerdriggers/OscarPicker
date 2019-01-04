@@ -45,7 +45,7 @@ export class OscarStatsComponent implements OnInit {
   ngOnInit() {
     this.years$ = this.afs.collection<Year>('user_picks').valueChanges();
     this.years$.subscribe(details => {
-      this.year = details[details.length - 2].year;
+      this.year = details[0].year;
       this.CorrectAnswers();
     });
   }

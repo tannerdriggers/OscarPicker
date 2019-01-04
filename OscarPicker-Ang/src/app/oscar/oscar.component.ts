@@ -46,7 +46,7 @@ export class OscarComponent implements OnInit {
 
     this.years$ = this.afs.collection<Year>('oscar_categories').valueChanges();
     this.years$.subscribe(details => {
-      this.year = details[details.length - 1].year;
+      this.year = details[0].year;
       this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
       this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
       this.choiceSubscription = this.userChoices$.subscribe(choices => {
@@ -65,7 +65,7 @@ export class OscarComponent implements OnInit {
   async getYear(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.years$.subscribe(details => {
-        this.year = details[details.length - 1].year;
+        this.year = details[0].year;
         resolve(details)
       });
     })
