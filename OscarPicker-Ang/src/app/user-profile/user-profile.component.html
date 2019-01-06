@@ -13,7 +13,7 @@
     <h5 class="mb-5 mt-4 text-gold">Login to get started...</h5>
     
     <button class="btn btn-gold" (click)="auth.googleLogin()">
-      Connect Google
+      Login With Google
     </button>
   </div>
 </ng-template>
@@ -22,20 +22,25 @@
 <!-- User logged in -->
 <ng-template #authenticated>
   <div *ngIf="auth.user$ | async as user">
-    <div class="row">
-      <div class="col pl-5 pr-5">
-        <div class="card mx-auto ml-4 mr-4 border-gold">
-          <img class="user-img-smaller rounded-circle card-img-top mx-auto mt-4" [src]="user.photoURL" alt="User Image">
-          <div class="card-body text-center">
-            <h3 class="card-title">{{ user.displayName ? user.displayName : user.email }}</h3>
-            <div class="justify-content mt-4">
-              <button class="btn btn-gold m-1" (click)="auth.oscarRedirect()">Oscar Picker</button>
-              <button class="btn btn-gold m-1" (click)="auth.oscarStatsRedirect()">Oscar Stats</button>
-              <button class="btn btn-gold m-1" (click)="auth.signOut()">Logout</button>
-            </div>
-          </div>
+    <div class="card mx-auto ml-4 mr-4 border-gold">
+      <img class="user-img-smaller rounded-circle card-img-top mx-auto mt-4" [src]="user.photoURL" alt="User Image">
+      <div class="card-body text-center">
+        <h3 class="card-title">{{ user.displayName ? user.displayName : user.email }}</h3>
+        <div class="justify-content mt-4">
+          <button class="btn btn-gold m-1" (click)="auth.oscarRedirect()">Oscar Picker</button>
+          <button class="btn btn-gold m-1" (click)="auth.oscarStatsRedirect()">Oscar Stats</button>
+          <button class="btn btn-gold m-1" (click)="auth.signOut()">Logout</button>
         </div>
       </div>
     </div>
   </div>
 </ng-template>
+
+<div class="card mx-auto ml-4 mr-4 mt-4 border-gold">
+  <div class="card-body text-center">
+    <h3 class="card-title text-gold">Support Me!</h3>
+    <div class="justify-content mt-4">
+      <button class="btn btn-gold m-1" (click)="patreonRedirect()">Patreon</button>
+    </div>
+  </div>
+</div>

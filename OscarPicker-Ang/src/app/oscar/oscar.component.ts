@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import { AuthService, User } from '../core/auth.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 interface Year {
   year: string
@@ -37,20 +38,27 @@ export class OscarComponent implements OnInit {
 
   choiceSubscription: Subscription;
 
-  constructor(private afs: AngularFirestore, public auth: AuthService) {}
+  constructor(private afs: AngularFirestore, public auth: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.auth.user$.subscribe(user => this.user = user);
-
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scrollTo(0, 0)
+    });
     this.choices = new Array<Choice>();
 
-    this.years$ = this.afs.collection<Year>('oscar_categories').valueChanges();
-    this.years$.subscribe(details => {
-      this.year = details[0].year;
-      this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-      this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
-      this.choiceSubscription = this.userChoices$.subscribe(choices => {
-        this.choices = choices;
+    this.auth.user$.subscribe(user => {
+      this.user = user
+      this.years$ = this.afs.collection<Year>('oscar_categories').valueChanges();
+      this.years$.subscribe(details => {
+        this.year = details[0].year;
+        this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
+        this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
+        this.choiceSubscription = this.userChoices$.subscribe(choices => {
+          this.choices = choices;
+        });
       });
     });
   }

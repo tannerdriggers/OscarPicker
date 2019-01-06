@@ -10,7 +10,7 @@
       </div>
     </div> Oscars By Category
   </h1>
-  <div class="header-divider mx-auto"></div> 
+  <div class="header-divider mx-auto"></div>
   <form action="">
     <div *ngFor="let category of oscarCategory$ | async | orderBy: 'category':false:true" class="card mx-auto m-3 border-gold">
       <div class="card-body" (onCreate)="newCategory(category.category)">

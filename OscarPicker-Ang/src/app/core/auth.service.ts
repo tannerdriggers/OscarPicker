@@ -66,7 +66,9 @@ export class AuthService {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
         this.updateUserData(credential.user)
-      })
+      }).catch(error => {
+        console.log(error);
+      });
   }
 
   private updateUserData(user: firebase.User) {
