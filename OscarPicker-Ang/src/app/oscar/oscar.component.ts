@@ -27,6 +27,7 @@ interface OscarCategory {
 export class OscarComponent implements OnInit {
 
   oscarCategory$: Observable<OscarCategory[]>;
+  oscarCategories: OscarCategory[];
 
   years$: Observable<Year[]>;
   year: string;
@@ -55,9 +56,13 @@ export class OscarComponent implements OnInit {
       this.years$.subscribe(details => {
         this.year = details[0].year;
         this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-        this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
-        this.choiceSubscription = this.userChoices$.subscribe(choices => {
-          this.choices = choices;
+        this.oscarCategory$.subscribe(categories => {
+          this.oscarCategories = categories;
+          this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
+          this.choiceSubscription = this.userChoices$.subscribe(choices => {
+            this.choices = choices;
+            this.putEmptyChoices();
+          });
         });
       });
     });
@@ -129,26 +134,30 @@ export class OscarComponent implements OnInit {
     this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
   }
 
-  newCategory(category: string): void {
+  putEmptyChoices(): void {
     let flag = false;
-    for (let choice of this.choices) {
-      if (choice.category === category) {
-        flag = true;
-        break;
+    for (let category of this.oscarCategories) {
+      for (let choice of this.choices) {
+        if (choice.category === category.category) {
+          flag = true;
+          break;
+        }
       }
-    }
-    if (!flag) {
-      let choice = new Choice();
-      choice.category = category;
-      this.choices.push(choice);
+      if (!flag) {
+        let choice = new Choice();
+        choice.category = category.category;
+        this.choices.push(choice);
+      }
+      flag = false;
     }
   }
 
   userChoice(category: string, choice: string): void {
+    // console.log(this.choices);
     for (let ch of this.choices) {
       if (ch.category === category) {
         ch.choice = choice;
-        console.log(ch);
+        // console.log(ch);
         this.SubmitSingleForm(category);
         break;
       }
