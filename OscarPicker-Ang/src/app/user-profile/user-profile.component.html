@@ -11,10 +11,11 @@
     </h1>
     
     <h5 class="mb-5 mt-4 text-gold">Login to get started...</h5>
-    
-    <button class="btn btn-gold" (click)="auth.googleLogin()">
-      Login With Google
-    </button>
+    <div class="justify-content">
+      <button class="btn btn-gold" (click)="auth.googleLogin()">
+        Login With Google
+      </button>
+    </div>
   </div>
 </ng-template>
 
@@ -28,6 +29,7 @@
         <h3 class="card-title">{{ user.displayName ? user.displayName : user.email }}</h3>
         <div class="justify-content mt-4">
           <button class="btn btn-gold m-1" (click)="auth.oscarRedirect()">Oscar Picker</button>
+          <button class="btn btn-gold m-1" (click)="auth.criticsChoiceRedirect()">Critics Choice Awards Picker</button>
           <button class="btn btn-gold m-1" (click)="auth.oscarStatsRedirect()">Oscar Stats</button>
           <button class="btn btn-gold m-1" (click)="auth.signOut()">Logout</button>
         </div>

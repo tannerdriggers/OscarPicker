@@ -14,23 +14,23 @@ class Choice {
   type: string;
 }
 
-interface OscarCategory {
+interface ccCategory {
   category: string;
   nominees: string[];
   winner?: string;
 }
 
 @Component({
-  selector: 'app-oscar',
-  templateUrl: './oscar.component.html',
-  styleUrls: ['./oscar.component.scss']
+  selector: 'app-critics-choice-awards',
+  templateUrl: './critics-choice-awards.component.html',
+  styleUrls: ['./critics-choice-awards.component.scss']
 })
-export class OscarComponent implements OnInit {
+export class CriticsChoiceAwardsComponent implements OnInit {
 
-  type: string = 'Oscar';
+  type: string = 'criticschoice';
 
-  oscarCategory$: Observable<OscarCategory[]>;
-  oscarCategories: OscarCategory[];
+  ccCategory$: Observable<ccCategory[]>;
+  ccCategories: ccCategory[];
 
   years$: Observable<Year[]>;
   year: string;
@@ -42,7 +42,7 @@ export class OscarComponent implements OnInit {
 
   choiceSubscription: Subscription;
 
-  constructor(private afs: AngularFirestore, public auth: AuthService, private router: Router) {}
+  constructor(private afs: AngularFirestore, public auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.router.events.subscribe((evt) => {
@@ -55,12 +55,12 @@ export class OscarComponent implements OnInit {
 
     this.auth.user$.subscribe(user => {
       this.user = user
-      this.years$ = this.afs.collection<Year>(`${this.type.toLowerCase()}_categories`).valueChanges();
+      this.years$ = this.afs.collection<Year>(`${this.type}_categories`).valueChanges();
       this.years$.subscribe(details => {
         this.year = details[0].year;
-        this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-        this.oscarCategory$.subscribe(categories => {
-          this.oscarCategories = categories;
+        this.ccCategory$ = this.afs.collection<ccCategory>(`${this.type}_categories/${this.year}/categories`).valueChanges();
+        this.ccCategory$.subscribe(categories => {
+          this.ccCategories = categories;
           this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/${this.user.uid}`, ref => ref.where('type', '==', this.type)).valueChanges();
           this.choiceSubscription = this.userChoices$.subscribe(choices => {
             this.choices = choices;
@@ -111,13 +111,13 @@ export class OscarComponent implements OnInit {
 
   YearChosen(year: string): void {
     this.year = year;
-    this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
+    this.ccCategory$ = this.afs.collection<ccCategory>(`${this.type}_categories/${this.year}/categories`).valueChanges();
     this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/${this.user.uid}`).valueChanges();
   }
 
   putEmptyChoices(): void {
     let flag = false;
-    for (let category of this.oscarCategories) {
+    for (let category of this.ccCategories) {
       for (let choice of this.choices) {
         if (choice.category === category.category) {
           flag = true;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService, User } from '../core/auth.service';
 import { Observable, Subscription } from 'rxjs';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 import { Router, NavigationEnd } from '@angular/router';
 
 interface Year {
@@ -10,7 +11,9 @@ interface Year {
 
 interface Choice {
   category: string,
-  choice: string
+  choice: string,
+  year: string,
+  type: string,
 }
 
 interface OscarCategory {
@@ -29,17 +32,22 @@ export class OscarStatsComponent implements OnInit {
   user: User;
 
   userAnswers$: Observable<Choice[]>;
-  oscarCategory$: Observable<OscarCategory[]>;
-  years$: Observable<Year[]>;
-
+  userAns: Choice[];
   userAnswersSubscription: Subscription;
+
+  oscarCategory$: Observable<OscarCategory[]>;
+  oscarCategories: OscarCategory[];
   oscarCategorySubscription: Subscription;
 
-  userAns: Choice[];
-  oscarCategories: OscarCategory[];
-  
+  years$: Observable<Year[]>;
+
   year: string = '2018';
   amountCorrect: number = 0;
+  globalAverageCorrect: number = 0.00;
+
+  everyonesAnswers$: Observable<Choice[]>;
+  everyonesAnswers: Choice[];
+  everyonesAnswersSubscription: Subscription;
 
   constructor(private afs: AngularFirestore, public auth: AuthService, private router: Router) { }
 
@@ -61,27 +69,38 @@ export class OscarStatsComponent implements OnInit {
   }
 
   CorrectAnswers(): void {
-    this.userAnswers$ = this.afs.collection<Choice>(`user_picks/${this.year}/Oscar/${this.user.uid}/categories`).valueChanges();
-    this.userAnswersSubscription = this.userAnswers$.subscribe(answers => {
-      this.userAns = answers;
+    this.userAnswers$ = this.afs.collection<Choice>(`user_picks/${this.year}/${this.user.uid}`).valueChanges();
+    this.userAnswersSubscription = this.userAnswers$.subscribe(answer => {
+      this.userAns = answer;
       this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
       this.oscarCategorySubscription = this.oscarCategory$.subscribe(categories => {
         this.oscarCategories = categories;
         this.numberOfCorrectAnswers();
+        // this.everyonesAnswersSubscription = this.everyonesAnswers$.subscribe(answers => {
+        //   this.everyonesAnswers = answers;
+        //   console.log(this.everyonesAnswers);
+        //   this.averageNumberCorrect();
+        // })
       });
     });
   }
 
   numberOfCorrectAnswers(): void {
     for (let category of this.oscarCategories) {
-      for (let userAnswer of this.userAns) {
-        if (category.category === userAnswer.category) {
-          if (category.winner === userAnswer.choice) {
+      for (let ans of this.userAns) {
+        if (category.category === ans.category) {
+          if (category.winner === ans.choice) {
             this.amountCorrect++;
           }
           break;
         }
       }
+    }
+  }
+
+  averageNumberCorrect(): void {
+    for (let answers of this.everyonesAnswers) {
+      
     }
   }
 

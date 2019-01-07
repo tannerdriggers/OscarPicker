@@ -73,9 +73,9 @@ export class AuthService {
 
   private updateUserData(user: firebase.User) {
     // Sets user data to firestore on login
-
+    console.log('before');
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-
+    console.log('after');
     const data: User = {
       uid: user.uid,
       email: user.email,
@@ -83,8 +83,6 @@ export class AuthService {
       photoURL: user.photoURL,
       roles: {
         subscriber: true,
-        editor: false,
-        admin: false
       }
     }
 
@@ -114,6 +112,10 @@ export class AuthService {
 
   oscarStatsRedirect() {
     this.router.navigate(['/oscarStats']);
+  }
+
+  criticsChoiceRedirect() {
+    this.router.navigate(['/criticsChoice']);
   }
 
   //////// Abilities and Roles Authorization ////////

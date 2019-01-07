@@ -18,6 +18,7 @@ import { DropdownDirective } from './dropdown-directive.directive';
 import { OrderModule } from 'ngx-order-pipe';
 import { OscarStatsComponent } from './oscar-stats/oscar-stats.component';
 import { OnCreateDirective } from './on-create.directive';
+import { CriticsChoiceAwardsComponent } from './critics-choice-awards/critics-choice-awards.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { OnCreateDirective } from './on-create.directive';
     DropdownDirective,
     OscarStatsComponent,
     OnCreateDirective,
+    CriticsChoiceAwardsComponent,
   ],
   imports: [
     BrowserModule,
