@@ -3,7 +3,6 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable, Subscription } from 'rxjs';
 import { AuthService, User } from '../core/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { componentRefresh } from '@angular/core/src/render3/instructions';
 
 interface Year {
   year: string
