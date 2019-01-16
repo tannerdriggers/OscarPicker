@@ -18,9 +18,9 @@
         <li *ngIf="auth.user$ | async" class="nav-item">
           <a class="nav-link text-gold text-right" (click)="auth.oscarRedirect(); toggleNavbar();">Oscar Picker</a>
         </li>
-        <li *ngIf="auth.user$ | async" class="nav-item">
+        <!-- <li *ngIf="auth.user$ | async" class="nav-item">
           <a class="nav-link text-gold text-right" (click)="auth.oscarStatsRedirect(); toggleNavbar();">Oscar Stats</a>
-        </li>
+        </li> -->
         <li *ngIf="auth.canEdit(user)" class="nav-item">
           <a class="nav-link text-gold text-right" (click)="auth.adminRedirect(); toggleNavbar();">Admin</a>
         </li>

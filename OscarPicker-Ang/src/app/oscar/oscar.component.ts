@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable, Subscription } from 'rxjs';
 import { AuthService, User } from '../core/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { componentRefresh } from '@angular/core/src/render3/instructions';
 
 interface Year {
   year: string
@@ -42,6 +43,8 @@ export class OscarComponent implements OnInit {
 
   choiceSubscription: Subscription;
 
+  numberCorrect: number = 0;
+
   constructor(private afs: AngularFirestore, public auth: AuthService, private router: Router) {}
 
   ngOnInit() {
@@ -57,16 +60,20 @@ export class OscarComponent implements OnInit {
       this.user = user
       this.years$ = this.afs.collection<Year>(`${this.type.toLowerCase()}_categories`).valueChanges();
       this.years$.subscribe(details => {
-        this.year = details[0].year;
-        this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-        this.oscarCategory$.subscribe(categories => {
-          this.oscarCategories = categories;
-          this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/${this.user.uid}`, ref => ref.where('type', '==', this.type)).valueChanges();
-          this.choiceSubscription = this.userChoices$.subscribe(choices => {
-            this.choices = choices;
-            this.putEmptyChoices();
-          });
-        });
+        this.year = details[details.length - 1].year;
+        this.Refresh();
+      });
+    });
+  }
+
+  Refresh(): void {
+    this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
+    this.oscarCategory$.subscribe(categories => {
+      this.oscarCategories = categories;
+      this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/${this.user.uid}`).valueChanges();
+      this.choiceSubscription = this.userChoices$.subscribe(choices => {
+        this.choices = choices;
+        this.putEmptyChoices();
       });
     });
   }
@@ -111,16 +118,19 @@ export class OscarComponent implements OnInit {
 
   YearChosen(year: string): void {
     this.year = year;
-    this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-    this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/${this.user.uid}`).valueChanges();
+    this.Refresh();
   }
 
   putEmptyChoices(): void {
     let flag = false;
+    this.numberCorrect = 0;
     for (let category of this.oscarCategories) {
       for (let choice of this.choices) {
         if (choice.category === category.category) {
           flag = true;
+          if (choice.choice === category.winner) {
+            this.numberCorrect++;
+          }
           break;
         }
       }
