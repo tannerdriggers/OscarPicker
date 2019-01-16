@@ -162,4 +162,13 @@ export class OscarComponent implements OnInit {
     return false;
   }
 
+  categoryAlreadyChosenByUser(category: string): boolean {
+    for (let choice of this.choices) {
+      if (choice.category === category) {
+        return true
+      }
+    }
+    return false;
+  }
+
 }
