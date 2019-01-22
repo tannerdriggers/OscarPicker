@@ -109,7 +109,7 @@ export class OscarComponent implements OnInit {
   VerifySingleForm(category: string) {
     for (let choice of this.choices) {
       if (choice.category === category) {
-        return choice.choice;
+        return choice.choice != null;
       }
     }
     return false;
