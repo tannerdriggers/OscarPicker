@@ -56,7 +56,7 @@ export class OscarComponent implements OnInit {
     this.choices = new Array<Choice>();
 
     this.auth.user$.subscribe(user => {
-      this.user = user
+      this.user = user;
       this.years$ = this.afs.collection<Year>(`${this.type.toLowerCase()}_categories`).valueChanges();
       this.years$.subscribe(details => {
         this.year = details[details.length - 1].year;
@@ -66,15 +66,17 @@ export class OscarComponent implements OnInit {
   }
 
   Refresh(): void {
-    this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
-    this.oscarCategory$.subscribe(categories => {
-      this.oscarCategories = categories;
-      this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/${this.user.uid}`).valueChanges();
-      this.choiceSubscription = this.userChoices$.subscribe(choices => {
-        this.choices = choices;
-        this.putEmptyChoices();
+    if (this.user) {
+      this.oscarCategory$ = this.afs.collection<OscarCategory>(`oscar_categories/${this.year}/categories`).valueChanges();
+      this.oscarCategory$.subscribe(categories => {
+        this.oscarCategories = categories;
+        this.userChoices$ = this.afs.collection<Choice>(`user_picks/${this.year}/${this.user.uid}`).valueChanges();
+        this.choiceSubscription = this.userChoices$.subscribe(choices => {
+          this.choices = choices;
+          this.putEmptyChoices();
+        });
       });
-    });
+    }
   }
 
   SubmitSingleForm(category: string): void {
