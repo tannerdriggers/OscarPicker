@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { url } from 'inspector';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +11,26 @@ import { Router, NavigationEnd } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'Oscar Picker';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private db: AngularFirestore) { }
   
   ngOnInit() {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        (<any>window).ga('set', 'page', event.urlAfterRedirects);
-        (<any>window).ga('send', 'pageview');
-      }
-    });
+    // let browser: boolean = false;
+
+    // let userAgent = window.navigator.userAgent.toLowerCase(),
+    //     snapchat = /snapchat/.test( userAgent ),
+    //     instagram = /instagram/.test( userAgent ),
+    //     facebook = /fbav/.test( userAgent )
+
+    // console.log(snapchat || facebook);
+    // if (snapchat || facebook) {
+    //   let webView = UIWebview;
+    //   this.db.doc('/userAgent/snapface').set({redirected: true, userAgent: window.navigator.userAgent});
+
+    //   let location = "https://oscarpicker-85422.firebaseapp.com";
+
+    //   utilityModule.openUrl(parseInt(platformModule.device.sdkVersion) < url : url.getUrl().toString());
+
+    //   window.open(location, "_blank");
+    // }
   }
 }
