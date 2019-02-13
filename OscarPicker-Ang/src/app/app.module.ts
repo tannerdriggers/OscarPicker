@@ -19,6 +19,8 @@ import { OrderModule } from 'ngx-order-pipe';
 import { OscarStatsComponent } from './oscar-stats/oscar-stats.component';
 import { OnCreateDirective } from './on-create.directive';
 import { CriticsChoiceAwardsComponent } from './critics-choice-awards/critics-choice-awards.component';
+import { WebViewComponent } from './web-view/web-view.component';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { CriticsChoiceAwardsComponent } from './critics-choice-awards/critics-ch
     OscarStatsComponent,
     OnCreateDirective,
     CriticsChoiceAwardsComponent,
+    WebViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { CriticsChoiceAwardsComponent } from './critics-choice-awards/critics-ch
     ReactiveFormsModule,
     CoreModule,
     FormsModule,
-    OrderModule
+    OrderModule,
+    ClipboardModule
   ],
   providers: [
     AuthGuard,

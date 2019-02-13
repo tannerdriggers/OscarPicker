@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { url } from 'inspector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,26 +9,15 @@ import { url } from 'inspector';
 export class AppComponent implements OnInit {
   title = 'Oscar Picker';
 
-  constructor(private router: Router, private db: AngularFirestore) { }
+  constructor(private router: Router) { }
   
   ngOnInit() {
-    // let browser: boolean = false;
+    let userAgent = window.navigator.userAgent.toLowerCase(),
+        snapchat = /snapchat/.test( userAgent ),
+        facebook = /fbav/.test( userAgent )
 
-    // let userAgent = window.navigator.userAgent.toLowerCase(),
-    //     snapchat = /snapchat/.test( userAgent ),
-    //     instagram = /instagram/.test( userAgent ),
-    //     facebook = /fbav/.test( userAgent )
-
-    // console.log(snapchat || facebook);
-    // if (snapchat || facebook) {
-    //   let webView = UIWebview;
-    //   this.db.doc('/userAgent/snapface').set({redirected: true, userAgent: window.navigator.userAgent});
-
-    //   let location = "https://oscarpicker-85422.firebaseapp.com";
-
-    //   utilityModule.openUrl(parseInt(platformModule.device.sdkVersion) < url : url.getUrl().toString());
-
-    //   window.open(location, "_blank");
-    // }
+    if (snapchat || facebook) {
+      this.router.navigate(['webview']);
+    }
   }
 }

@@ -7,6 +7,7 @@ import { CanReadGuard } from './core/can-read.guard';
 import { OscarAdminComponent } from './oscar-admin/oscar-admin.component';
 import { OscarStatsComponent } from './oscar-stats/oscar-stats.component';
 import { CriticsChoiceAwardsComponent } from './critics-choice-awards/critics-choice-awards.component';
+import { WebViewComponent } from './web-view/web-view.component';
 
 const routes: Routes = [
   { path: '', component: UserProfileComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'oscarStats', component: OscarStatsComponent, canActivate: [CanReadGuard] },
   { path: 'criticsChoice', component: CriticsChoiceAwardsComponent, canActivate: [CanReadGuard] },
   { path: 'oscarAdmin', component: OscarAdminComponent, canActivate: [AdminGuard] },
+  { path: 'webview', component: WebViewComponent },
 ];
 
 @NgModule({
